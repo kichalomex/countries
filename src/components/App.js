@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'               
-import Countries from './Countries.js'
+import Countries from './Countries'
+import CountryData from './CountryData'
 
 const App = () => {
     const [query, setQuery] = useState("")
@@ -9,7 +10,7 @@ const App = () => {
 
     useEffect(() => {
         axios.get("https://restcountries.com/v3.1/all").then((response) => {
-          setCountries(response.data)
+            setCountries(response.data)
     })
 }, [])
 
@@ -28,7 +29,17 @@ const App = () => {
             <div>
                 Find countries <input value={query} onChange={handleQueryChange} />
             </div>    
-            <Countries countriesShow={countriesShow} />
+            {countriesShow.length === 1 ? (
+                <CountryData country={countriesShow[0]} />
+            ) : null}
+            {countriesShow.length > 10 ? (
+                <div>Too many matches, specify another filter</div>
+            ) : (
+                <Countries 
+                    countriesShow={countriesShow} 
+                    setCountriesShow={setCountriesShow}
+                />
+            )}
         </div>
     )
 }
