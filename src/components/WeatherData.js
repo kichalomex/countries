@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 const WeatherData = ({ city }) => {
@@ -9,18 +9,15 @@ const WeatherData = ({ city }) => {
     console.log(city)
     useEffect(() => {
         axios
-            .get(
-                `http://api.weatherstack.com/current
-                ? access_key=${api_key}
-                & query=${city}`
-            )
+            .get(`http://api.weatherstack.com/current?access_key=${api_key}&query=${city}`)
             .then((response) => {
-                setWeather(response.data)//.current al agregarlo ya no se ve pero intenta usar la api
-                console.log(response)
+                setWeather(response.data.current)
+                console.log(response.data)
             })
         return () => setWeather({})
     }, [city])
-
+    console.log(weather);
+    console.log(setWeather);
     return (
         <div>
             <h2>Weather in {city}</h2>
@@ -36,7 +33,6 @@ const WeatherData = ({ city }) => {
     )
 }
 /*
-
-
+Usar fire fox porque chrome lo convierte a https y no lo deja
 */
 export default WeatherData
